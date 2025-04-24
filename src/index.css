@@ -1,0 +1,155 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 25% 4%;
+    --foreground: 276 100% 99%;
+
+    --card: 260 25% 10%;
+    --card-foreground: 276 100% 99%;
+
+    --popover: 260 25% 7%;
+    --popover-foreground: 276 100% 99%;
+
+    --primary: 276 100% 65%;
+    --primary-foreground: 240 10% 4%;
+
+    --secondary: 276 30% 40%;
+    --secondary-foreground: 276 100% 99%;
+
+    --muted: 276 30% 20%;
+    --muted-foreground: 276 20% 70%;
+
+    --accent: 276 30% 25%;
+    --accent-foreground: 276 100% 99%;
+
+    --destructive: 350 80% 50%;
+    --destructive-foreground: 276 100% 99%;
+
+    --border: 276 30% 20%;
+    --input: 276 30% 20%;
+    --ring: 276 40% 60%;
+
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-necro-darker bg-necro-pattern text-foreground font-mono;
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-cinzel;
+  }
+  
+  /* Barras de rolagem */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-necro-darker/50;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-necro/30 rounded-full hover:bg-necro/50 transition-colors;
+  }
+}
+
+@layer components {
+  .card-necro {
+    @apply bg-necro-dark/80 border border-necro/30 rounded-md shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-necro/10;
+  }
+
+  .card-section {
+    @apply bg-necro-dark/60 border border-necro/20 rounded-md p-4;
+  }
+
+  .divider {
+    @apply w-full text-center overflow-hidden text-necro my-4 opacity-70 tracking-widest;
+  }
+  
+  .divider:before, .divider:after {
+    @apply bg-necro/30;
+    content: '';
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+  }
+  
+  .divider:before {
+    @apply right-4;
+    margin-left: -50%;
+  }
+  
+  .divider:after {
+    @apply left-4;
+    margin-right: -50%;
+  }
+
+  .stat-bar {
+    @apply h-2 bg-necro-dark rounded-full overflow-hidden relative;
+  }
+
+  .stat-bar-fill {
+    @apply h-full rounded-full absolute top-0 left-0 transition-all duration-500;
+  }
+
+  .stat-value {
+    @apply flex items-center gap-2 text-sm;
+  }
+
+  .stat-value button {
+    @apply w-6 h-6 flex items-center justify-center rounded-full text-xs transition-all duration-200 hover:bg-necro hover:text-white;
+  }
+
+  .stat-label {
+    @apply text-muted-foreground text-sm;
+  }
+
+  .attribute-grid {
+    @apply grid gap-3;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  
+  .btn-necro {
+    @apply bg-necro hover:bg-necro-light text-white px-3 py-1.5 rounded-md transition-all duration-200 flex items-center justify-center gap-1;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px theme('colors.necro.DEFAULT'), 0 0 20px theme('colors.necro.DEFAULT');
+  }
+  
+  .border-glow {
+    box-shadow: 0 0 5px theme('colors.necro.DEFAULT'), 0 0 10px theme('colors.necro.DEFAULT');
+  }
+  
+  .hover-lift {
+    @apply transition-transform duration-200 hover:-translate-y-1;
+  }
+  
+  .hover-bright {
+    @apply transition-all duration-200 hover:brightness-110;
+  }
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/cinzel/v23/8vJK7ww63mVu7gtzTUHeFGxf.woff2) format('woff2');
+}
