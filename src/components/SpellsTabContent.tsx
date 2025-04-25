@@ -1,23 +1,28 @@
 
-import React, { useState } from "react";
+import React from "react";
 import SpellCard from "@/components/SpellCard";
 import { SpellTabContentWrapper, useTabContext } from "@/components/TabLayout";
 import { toast } from "@/components/ui/use-toast";
 import { v4 as uuidv4 } from "uuid";
 
-// Define the SpellCategory type for reuse
 export type SpellCategory = "Ataque" | "Defesa" | "Cura" | "Passiva";
 export interface Spell {
   id: string;
   name: string;
   description?: string;
   category?: SpellCategory;
+  damage?: number;
+  healing?: number;
+  cost?: {
+    type: 'mana' | 'energia';
+    value: number;
+  };
 }
 
 interface SpellsTabContentProps {
   spells: Spell[];
   onAdd: (spell: Spell) => void;
-  onUpdate: (id: string, spell: { name: string; description?: string; category?: SpellCategory }) => void;
+  onUpdate: (id: string, spell: Partial<Spell>) => void;
   onDelete: (id: string) => void;
 }
 
@@ -34,7 +39,12 @@ const SpellsTabContent: React.FC<SpellsTabContentProps> = ({
       id: `spell-${uuidv4()}`,
       name: "Nova Magia",
       description: "",
-      category: "Ataque"
+      category: "Ataque",
+      damage: 0,
+      cost: {
+        type: 'mana',
+        value: 0
+      }
     };
     onAdd(newSpell);
     toast({
@@ -42,6 +52,11 @@ const SpellsTabContent: React.FC<SpellsTabContentProps> = ({
       description: "Nova magia adicionada com sucesso!",
       duration: 2000,
     });
+  };
+
+  const handleUpdateSpell = (id: string, spellData: Partial<Spell>) => {
+    console.log("Atualizando magia:", id, spellData);
+    onUpdate(id, spellData);
   };
 
   const filteredSpells = spells.filter(spell => {
@@ -73,7 +88,10 @@ const SpellsTabContent: React.FC<SpellsTabContentProps> = ({
               name={spell.name}
               description={spell.description}
               category={spell.category}
-              onUpdate={onUpdate}
+              damage={spell.damage}
+              healing={spell.healing}
+              cost={spell.cost}
+              onUpdate={handleUpdateSpell}
               onDelete={onDelete}
             />
           ))}

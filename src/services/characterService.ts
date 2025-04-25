@@ -44,6 +44,10 @@ export const getCharacterById = async (characterId: string): Promise<CharacterDa
     
     if (docSnap.exists()) {
       const data = docSnap.data() as Omit<CharacterData, "id">;
+      // Garantir que os dados das magias sejam sempre um array mesmo que não exista no documento
+      if (!data.spells) {
+        data.spells = [];
+      }
       return { ...data, id: docSnap.id };
     }
     
@@ -69,7 +73,13 @@ export const createCharacter = async (character: Omit<CharacterData, "id">): Pro
 export const updateCharacter = async (character: CharacterData): Promise<void> => {
   try {
     const { id, ...characterData } = character;
-    await updateDoc(doc(db, CHARACTERS_COLLECTION, id), characterData);
+    
+    // Garantir que os dados estão no formato correto antes de salvar
+    // Especialmente importante para os itens aninhados como magias
+    const sanitizedData = JSON.parse(JSON.stringify(characterData));
+    
+    await updateDoc(doc(db, CHARACTERS_COLLECTION, id), sanitizedData);
+    console.log("Personagem atualizado com sucesso:", character.name);
   } catch (error) {
     console.error(`Erro ao atualizar personagem com ID ${character.id}:`, error);
     throw error;

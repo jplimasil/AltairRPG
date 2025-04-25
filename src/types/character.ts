@@ -58,6 +58,12 @@ export interface CharacterData {
     name: string;
     description?: string;
     category?: SpellCategory;
+    damage?: number;
+    healing?: number;
+    cost?: {
+      type: 'mana' | 'energia';
+      value: number;
+    };
   }>;
   notes: string;
 }
